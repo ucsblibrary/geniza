@@ -33,10 +33,13 @@ group :development, :test do
   gem 'capistrano-bundler'
   gem 'capistrano-passenger'
   gem 'capistrano-rails', '>= 1.1.3'
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
   gem 'highline'
 
   gem 'byebug'
   gem 'capybara'
+  gem 'chromedriver-helper'
   gem 'sqlite3'
   gem 'method_source'
   gem 'pry'
