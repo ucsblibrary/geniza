@@ -28,3 +28,5 @@
 # site-specific settings
 /config/import.yml
 /config/secrets.yml
+
+spec/examples.txt
