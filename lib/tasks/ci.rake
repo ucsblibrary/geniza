@@ -1,4 +1,4 @@
-desc 'Run tests with blacklight-test solr instance running'
+desc 'Run tests with test solr instance running'
 task ci: [:environment] do
   require 'solr_wrapper'
   ENV['environment'] = 'test'
@@ -8,7 +8,7 @@ task ci: [:environment] do
     managed: true
   }
   SolrWrapper.wrap(solr_params) do |solr|
-    solr.with_collection(name: 'blacklight-test', persist: false, dir: Rails.root.join('solr', 'config')) do
+    solr.with_collection(name: 'blacklight-core', persist: false, dir: Rails.root.join('solr', 'config')) do
       # run the tests
       # Rake::Task['spotlight:seed'].invoke
       Rake::Task['spec'].invoke
