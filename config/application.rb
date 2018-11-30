@@ -21,5 +21,6 @@ module UcsbSpotlight
       )[Rails.env] || {}
 
     config.active_job.queue_adapter = ENV['RAILS_QUEUE']&.to_sym || :inline
+    config.action_mailer.default_options = { from: ENV['ADRL_EMAIL'] || 'noreply@example.com' }
   end
 end
