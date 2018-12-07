@@ -19,7 +19,7 @@ class Spotlight::AddUploadsFromCSV < ApplicationJob
         exhibit: exhibit
       )
 
-      url = "http://localhost:3000/#{file}" if file
+      url = "#{ENV["RAILS_HOST"]}/#{file}" if file
       resource.build_upload(remote_image_url: url)
       resource.save_and_index
     end
