@@ -2,6 +2,11 @@ require_relative 'boot'
 
 require 'rails/all'
 
+# There are an overwhelming number of deprecations that we can't address.
+# Silence them for now.
+# To turn them back on, remove the following line:
+ActiveSupport::Deprecation.silenced = true
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
