@@ -3,6 +3,22 @@
 Spotlight is a framework built on Blacklight that allows the creation
 and presentation of exhibits.
 
+## Importing Data
+
+### Via the UI
+The preferred way to import data into geniza is via the UI. Images can be specified
+either via a url or via a filename. A CSV import file must use either urls or files, not a mixture of both.
+
+1. Create an exhibit. Ensure all the metadata fields you want are specified.
+1. In the UI for your exhibit, go to Items --> Add Items --> Upload multiple items
+1. Click `download template` to download a CSV template that contains all the metadata fields for your exhibit
+1. Populate the CSV as appropriate. If you want to use local files instead of urls, change the `url` column heading to say `file` instead. File names should be specified relative to where on the geniza server they are mounted. THIS NEEDS MORE SPECIFICATION.
+1. Click `choose file` and upload your populated CSV file.
+
+### Via the command line
+**Note:** The command line import is not being actively developed and should not
+be used without consultation with the geniza development team.
+
 This instance has been enhanced with a CLI batch import tool that
 takes CSV metadata files and creates exhibits.
 

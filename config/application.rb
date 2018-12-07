@@ -11,6 +11,13 @@ module UcsbSpotlight
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
+    # Serve out any static files found in Rails.application.secrets.import_dir
+    # This is required for CSV imports that load files from disk.
+    # If import dir is not defined, default to the local spec fixtures directory
+    config.serve_static_files = true
+    import_dir = Rails.application.secrets.import_dir || Rails.root.join('spec', 'fixtures').to_s
+    config.middleware.use ::ActionDispatch::Static, import_dir
+
     config.action_mailer.default_url_options = { host: Rails.application.secrets.hostname }
     config.action_mailer.smtp_settings =
       YAML.safe_load(

@@ -11,6 +11,11 @@ AllCops:
     - 'provisioning/**/*'
     - 'vendor/bundle/**/*'
 
+# Allow the use of Capybara-specific rspec syntax, e.g., "Rspec.feature"
+# Setting this to "true" disables the feature syntax.
+Capybara/FeatureMethods:
+  Enabled: false
+
 Layout/IndentationConsistency:
   EnforcedStyle: rails
 
@@ -61,6 +66,17 @@ Rails/ActiveRecordAliases:
 
 Rails/ApplicationRecord:
   Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Exclude:
+    - spec/jobs/spotlight/add_uploads_from_csv_spec.rb
+
+RSpec/VerifiedDoubles:
+  Exclude:
+    - spec/jobs/spotlight/add_uploads_from_csv_spec.rb
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
