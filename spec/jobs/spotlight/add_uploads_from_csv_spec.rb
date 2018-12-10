@@ -54,7 +54,7 @@ RSpec.describe Spotlight::AddUploadsFromCSV do
       upload = FactoryBot.create(:uploaded_resource)
       expect(Spotlight::Resources::Upload).to receive(:new).at_least(:once).and_return(upload)
 
-      expect(upload).to receive(:build_upload).with(remote_image_url: "http://localhost:3000/#{filename}").and_call_original
+      expect(upload).to receive(:build_upload).with(remote_image_url: "#{ENV["RAILS_HOST"]}/#{filename}").and_call_original
       expect(upload).to receive(:save_and_index).at_least(:once)
 
       job.perform_now
