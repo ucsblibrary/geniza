@@ -27,6 +27,11 @@ require 'spotlight'
 #
 # Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
+# Use puma for Capybara tests
+Capybara.server = :puma
+Capybara.server_host = '127.0.0.1'
+Capybara.server_port = 3030
+
 # Uses faster rack_test driver when JavaScript support not needed
 Capybara.default_driver = :rack_test
 
