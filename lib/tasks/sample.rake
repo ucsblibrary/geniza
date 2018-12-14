@@ -14,9 +14,10 @@ namespace :geniza do
 
     desc 'Clean out all content'
     task clean: [:environment] do
-      puts "Cleaning out all content"
-      DatabaseCleaner.clean_with :truncation
-      DatabaseCleaner.clean
+      puts "Cleaning out all exhibits"
+      Spotlight::Exhibit.all.each do |s|
+        s.destroy!
+      end
       Blacklight.default_index.connection.delete_by_query('*:*', params: { 'softCommit' => true })
     end
 
