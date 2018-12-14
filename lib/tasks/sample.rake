@@ -1,5 +1,3 @@
-require 'database_cleaner'
-
 namespace :geniza do
   namespace :sample do
     desc 'Load Blake exhibit and content'
