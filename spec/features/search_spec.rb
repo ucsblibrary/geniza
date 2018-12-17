@@ -14,9 +14,12 @@ require 'rails_helper'
 # Identifier
 # Publisher
 # Subject
-
-RSpec.feature 'Search for expected fields', :clean, js: true do
+RSpec.feature 'when searching', :clean, js: true do
   include Warden::Test::Helpers
+
+  let(:item_one)        { "Ednah A. Rich" }
+  let(:item_two)        { "Group photograph in front of Anna S. C. Blake Manual Training School" }
+  let(:item_three)      { "Miss Anna S.C. Blake" }
 
   let(:csv_file_path)   { File.join(fixture_path, csv_file_name) }
   let(:csv_file_name)   { 'blake_search_test.csv' }
@@ -25,6 +28,8 @@ RSpec.feature 'Search for expected fields', :clean, js: true do
   let(:search_url)      { "/spotlight/#{exhibit_slug}/catalog?utf8=%E2%9C%93&exhibit_id=#{exhibit_slug}&search_field=all_fields&q=" }
   let(:exact_title)     { "Ednah A. Rich" }
   let(:partial_title)   { "Ednah" }
+  let(:description)     { "apple" }
+  let(:attribution)     { "Whitman" }
 
   before do
     ENV['IMPORT_DIR'] = Rails.root.join('spec', 'fixtures', 'images').to_s
@@ -32,12 +37,12 @@ RSpec.feature 'Search for expected fields', :clean, js: true do
     login_as site_admin
   end
 
-  context 'Create an exhibit' do
-    it 'creates and populates an exhibit via the UI' do
+  context 'when searching specified fields' do
+    it 'returns the records we expect' do
       expect(Spotlight::Exhibit.count).to eq 0
       visit '/'
       exhibit = Spotlight::Exhibit.create!(title: "The Anna S. C. Blake Manual Training School")
-      exhibit.import(JSON.parse(Rails.root.join('spec','fixtures','the-anna-s-c-blake-manual-training-school-export.json').read))
+      exhibit.import(JSON.parse(Rails.root.join('spec', 'fixtures', 'the-anna-s-c-blake-manual-training-school-export.json').read))
       exhibit.save
       exhibit.reindex_later
       expect(Spotlight::Exhibit.count).to eq 1
@@ -53,17 +58,27 @@ RSpec.feature 'Search for expected fields', :clean, js: true do
 
       ## Exact title search
       visit "#{search_url}#{exact_title}"
-      click_link exact_title
-      expect(page).to have_content "uarch112-g01579"
+      expect(page).to have_content item_one
+      expect(page).not_to have_content item_two
+      expect(page).not_to have_content item_three
 
       ## Partial title search
       visit "#{search_url}#{partial_title}"
-      click_link exact_title
-      expect(page).to have_content "uarch112-g01579"
+      expect(page).to have_content item_one
+      expect(page).not_to have_content item_two
+      expect(page).not_to have_content item_three
 
       ## Description search
+      visit "#{search_url}#{description}"
+      expect(page).to have_content item_one
+      expect(page).not_to have_content item_two
+      expect(page).to have_content item_three
 
-
+      ## Attribution search
+      visit "#{search_url}#{attribution}"
+      expect(page).to have_content item_one
+      expect(page).not_to have_content item_two
+      expect(page).not_to have_content item_three
     end
   end
 end

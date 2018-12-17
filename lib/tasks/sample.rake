@@ -5,7 +5,7 @@ namespace :geniza do
       puts "Loading Blake exhibit"
       create_admin_users
       exhibit = Spotlight::Exhibit.create!(title: "The Anna S. C. Blake Manual Training School")
-      exhibit.import(JSON.parse(Rails.root.join('spec','fixtures','the-anna-s-c-blake-manual-training-school-export.json').read))
+      exhibit.import(JSON.parse(Rails.root.join('spec', 'fixtures', 'the-anna-s-c-blake-manual-training-school-export.json').read))
       exhibit.save
       exhibit.reindex_later
     end
@@ -13,9 +13,7 @@ namespace :geniza do
     desc 'Clean out all content'
     task clean: [:environment] do
       puts "Cleaning out all content"
-      Spotlight::Exhibit.all.each do |exhibit|
-        exhibit.destroy!
-      end
+      Spotlight::Exhibit.all.&:destroy!
       Blacklight.default_index.connection.delete_by_query('*:*', params: { 'softCommit' => true })
     end
 
